@@ -10,6 +10,7 @@
     sizeClass ? 'el-form-item--' + sizeClass : ''
   ]">
     <label-wrap
+      v-if="withLabel"
       :is-auto-width="labelStyle && labelStyle.width === 'auto'"
       :update-all="form.labelWidth === 'auto'">
       <label :for="labelFor" class="el-form-item__label" :style="labelStyle" v-if="label || $slots.label">
@@ -18,7 +19,7 @@
     </label-wrap>
     <div class="el-form-item__content" :style="contentStyle">
       <slot></slot>
-      <transition name="el-zoom-in-top">
+      <transition v-if="withTransition" name="el-zoom-in-top">
         <slot
           v-if="validateState === 'error' && showMessage && form.showMessage"
           name="error"
@@ -60,6 +61,14 @@
     inject: ['elForm'],
 
     props: {
+      withLabel: {
+        type: Boolean,
+        default: true
+      },
+      withTransition: {
+        type: Boolean,
+        default: true
+      },
       label: String,
       labelWidth: String,
       prop: String,
